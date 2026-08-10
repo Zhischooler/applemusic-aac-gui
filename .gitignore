@@ -1,0 +1,44 @@
+
+# Python 缓存
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.dll
+
+# 虚拟环境
+venv/
+env/
+ENV/
+.venv/
+
+# 配置文件（包含用户自定义设置）
+config.txt
+
+# 下载输出目录
+downloads/
+output/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 日志
+*.log
+
+# 打包文件
+build/
+dist/
+*.spec
+
+# 测试
+.pytest_cache/
+.tox/
+.mypy_cache/
+
+# 操作系统
+.DS_Store
+Thumbs.db
