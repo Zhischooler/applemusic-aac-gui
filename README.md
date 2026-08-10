@@ -1,7 +1,7 @@
 # applemusic-aac-gui
  基于 [gamdl](https://github.com/glomatico/gamdl) 和 [AppleMusic-Downloader](https://github.com/wenfeng110402/AppleMusic-Downloader) 思路开发的图形化 Apple Music 下载工具，支持 AAC 256kbps、歌词、封面、转 FLAC 等特性。
 
-![界面预览](screenshot.png)
+![界面预览](./screenshot.png)
 
 [详细使用教程](./Use-Steps.md)
 
