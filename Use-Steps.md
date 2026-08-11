@@ -16,6 +16,7 @@
 先转到此目录
 ```bash
 cd 你所存放的位置
+```
 在终端中运行：
 ```bash
 python apple_music_gui.py
