@@ -32,6 +32,7 @@ python apple_music_gui.py
 1. 选择 Cookies 文件
 
 · 点击“Cookies文件”旁的 浏览 按钮，选择您之前导出的 cookies.txt。
+
 · 确保文件有效（包含正确的认证信息）。
 
 2. 选择输出目录
