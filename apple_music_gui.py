@@ -4,7 +4,7 @@
 """
 Apple Music AAC Downloader GUI
 基于 gamdl 和 wenfeng110402/AppleMusic-Downloader 思路构建
-支持配置文件持久化（封面尺寸、歌词、转FLAC）- 界面功能暂未启用
+支持配置文件持久化（封面尺寸、歌词、转FLAC、展开集合）- 界面功能暂未启用
 使用 PySide6 作为 GUI 框架
 """
 
@@ -33,7 +33,9 @@ def load_config():
     config = {
         "coversize": "600x600",
         "downloadlyrics": True,
-        "m4atoflac": False
+        "m4atoflac": False,
+        # 新增：是否展开集合（歌单/专辑/艺人）并下载所有可用曲目
+        "expand_collections": True
     }
     if not os.path.exists(CONFIG_FILE):
         return config
@@ -52,6 +54,8 @@ def load_config():
                     config["downloadlyrics"] = value.lower() == "true"
                 elif key == "m4atoflac":
                     config["m4atoflac"] = value.lower() == "true"
+                elif key == "expand_collections":
+                    config["expand_collections"] = value.lower() == "true"
     except Exception as e:
         print(f"读取配置文件失败: {e}")
     return config
@@ -63,6 +67,7 @@ def save_config(config):
             f.write(f"coversize:{config['coversize']}\n")
             f.write(f"downloadlyrics:{str(config['downloadlyrics']).lower()}\n")
             f.write(f"m4atoflac:{str(config['m4atoflac']).lower()}\n")
+            f.write(f"expand_collections:{str(config.get('expand_collections', True)).lower()}\n")
     except Exception as e:
         print(f"保存配置文件失败: {e}")
 
@@ -76,7 +81,7 @@ class DownloadThread(QThread):
     finished_signal = Signal(bool, str)
 
     def __init__(self, url, cookies_path, output_dir, quality, 
-                 lyrics, cover_size, remux_flac, concurrent):
+                 lyrics, cover_size, remux_flac, expand, concurrent):
         super().__init__()
         self.url = url
         self.cookies_path = cookies_path
@@ -85,6 +90,7 @@ class DownloadThread(QThread):
         self.lyrics = lyrics
         self.cover_size = cover_size
         self.remux_flac = remux_flac
+        self.expand = expand
         self.concurrent = concurrent   # 保留但暂不使用
         self._is_cancelled = False
 
@@ -92,12 +98,17 @@ class DownloadThread(QThread):
         self._is_cancelled = True
 
     def run(self):
-        # 基础命令（使用当前 gamdl 支持的参数）
+        # ���础命令（使用当前 gamdl 支持的参数）
         cmd = [
             "gamdl",
             "--cookies-path", self.cookies_path,
             "--output-path", self.output_dir,
         ]
+
+        # 如果勾选展开集合，则传递 --expand 参数给 gamdl
+        # 注意：不同版本的 gamdl 可能使用 --expand 或 --recursive，请根据实际版本调整。
+        if self.expand:
+            cmd.append("--expand")
 
         # 注意：其他选项（音质、封面、歌词、转FLAC）因版本变更已暂时移除
         # 如需启用，请运行 `gamdl --help` 查看当前支持选项并修改此处
@@ -192,7 +203,7 @@ class MainWindow(QMainWindow):
         output_layout.addWidget(self.output_btn)
         config_layout.addLayout(output_layout)
 
-        # 下载选项（界面保留，但实际功能暂未启用）
+        # 下载选项（界面保���，但实际功能暂未启用）
         option_layout = QHBoxLayout()
         option_layout.addWidget(QLabel("音质:"))
         self.quality_combo = QComboBox()
@@ -213,6 +224,11 @@ class MainWindow(QMainWindow):
         self.flac_check = QCheckBox("转FLAC")
         self.flac_check.stateChanged.connect(self.on_setting_changed)
         option_layout.addWidget(self.flac_check)
+
+        # 新增：是否展开集合（歌单/专辑/艺人）并下载所有可用曲目
+        self.expand_check = QCheckBox("展开集合（下载歌单/专辑全部可用曲目）")
+        self.expand_check.stateChanged.connect(self.on_setting_changed)
+        option_layout.addWidget(self.expand_check)
 
         option_layout.addWidget(QLabel("封面尺寸:"))
         self.cover_size_line = QLineEdit()
@@ -289,11 +305,13 @@ class MainWindow(QMainWindow):
         self.cover_size_line.setText(self.config.get("coversize", "600x600"))
         self.lyrics_check.setChecked(self.config.get("downloadlyrics", True))
         self.flac_check.setChecked(self.config.get("m4atoflac", False))
+        self.expand_check.setChecked(self.config.get("expand_collections", True))
 
     def on_setting_changed(self):
         self.config["coversize"] = self.cover_size_line.text().strip()
         self.config["downloadlyrics"] = self.lyrics_check.isChecked()
         self.config["m4atoflac"] = self.flac_check.isChecked()
+        self.config["expand_collections"] = self.expand_check.isChecked()
         save_config(self.config)
 
     # ---------- 辅助方法 ----------
@@ -377,10 +395,11 @@ class MainWindow(QMainWindow):
         concurrent = self.concurrent_spin.value()
         output_dir = self.output_line.text().strip()
         cookies = self.cookies_line.text().strip()
+        expand = self.expand_check.isChecked()
 
         self.download_thread = DownloadThread(
             url, cookies, output_dir, quality,
-            lyrics, cover_size, remux_flac, concurrent
+            lyrics, cover_size, remux_flac, expand, concurrent
         )
         self.download_thread.log_signal.connect(self.log_message)
         self.download_thread.progress_signal.connect(self.progress_bar.setValue)
