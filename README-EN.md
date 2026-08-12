@@ -1,11 +1,14 @@
-Apple Music AAC GUI
+## Apple Music AAC GUI
 
 A graphical Apple Music download tool developed based on [gamdl](https://github.com/glomatico/gamdl) and the ideas from [AppleMusic-Downloader](https://github.com/wenfeng110402/AppleMusic-Downloader), supporting AAC 256kbps, lyrics, cover art, conversion to FLAC, and more.
 
 ![View App](./screenshot.png)
+
 [Steps: 0to1](./Use-Steps.md)
+
 [简体中文](./README.md)
-![Python](https://img.shields.io/badge/python-3.10+-blue)
+
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/downloads/)
 ![MIT](https://img.shields.io/github/license/Zhischooler/applemusic-aac-gui?style=social)
 
 ✨ Features
