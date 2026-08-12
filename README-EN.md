@@ -5,7 +5,8 @@ A graphical Apple Music download tool developed based on [gamdl](https://github.
 ![View App](./screenshot.png)
 [Steps: 0to1](./Use-Steps.md)
 [简体中文](./README.md)
-
+![Python](https://img.shields.io/badge/python-3.10+-blue)
+![https://img.shields.io/github/license/Zhischooler/applemusic-aac-gui?style=social]
 ✨ Features
 
 · 🎵 Download songs, albums, playlists, and artist pages from Apple Music (subscription required)
