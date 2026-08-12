@@ -57,9 +57,16 @@ pip install -r requirements.txt
 
 · Windows：下载 ffmpeg.org 并添加到 PATH。
 
-· macOS：brew install ffmpeg
+·macOS：
+```bash
+brew install ffmpeg
+```
 
-· Linux：sudo apt install ffmpeg（或其他包管理器）
+· Linux：
+```bash
+sudo apt install ffmpeg
+```
+（或其他包管理器）
 
 4. 获取 Cookies
 
@@ -80,6 +87,7 @@ coversize:600x600      # 封面尺寸（宽x高）
 downloadlyrics:true    # 是否下载歌词
 m4atoflac:false        # 是否转 FLAC
 ```
+true代表是，false代表否。
 
 你可以直接修改文件或通过 GUI 实时调整，修改后会自动保存。
 
