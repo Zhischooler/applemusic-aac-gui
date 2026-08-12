@@ -8,7 +8,6 @@
 [English](./README-EN.md)
 
 ![Python](https://img.shields.io/badge/python-3.10+-blue)
-
 ![MIT](https://img.shields.io/github/license/Zhischooler/applemusic-aac-gui?style=social)
 
 ## ✨ 功能特点
