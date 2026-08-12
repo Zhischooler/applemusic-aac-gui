@@ -14,7 +14,7 @@
 - 已从浏览器导出 `cookies.txt`（Netscape 格式）
 
 ## 第一步：启动程序
-先转到此目录
+先转到存放文件的目录
 ```bash
 cd 你所存放的位置
 ```
@@ -43,7 +43,7 @@ python apple_music_gui.py
 
 · 音质：推荐 aac_256（256kbps），也可选择更低码率。
 
-· 并发数：同时下载的任务数，建议 3~5，过大可能被限制。
+· 并发数：同时下载的任务数，建议 2~5，过大可能被限制。
 
 · 下载歌词：勾选后会自动下载同步歌词（.lrc）并嵌入元数据。
 
@@ -59,7 +59,7 @@ python apple_music_gui.py
 
 1. 在“任务管理”区域的输入框中粘贴 Apple Music 链接。
 
-   · 支持链接类型：歌曲、专辑、歌单、艺人主页。
+   · 支持链接类型：歌曲、专辑、歌单。
 
    · 示例：https://music.apple.com/cn/album/xxx/123456789
 
@@ -97,7 +97,11 @@ A：请重新从浏览器导出 Cookies，确保登录状态有效，并且导�
 
 Q：转 FLAC 失败？
 
-A：请检查 FFmpeg 是否安装并添加到 PATH，或在终端运行 ffmpeg -version 验证。
+A：请检查 FFmpeg 是否安装并添加到 PATH，或在终端运行 
+```bash
+ffmpeg -version 
+```
+验证。
 
 Q：如何修改默认配置？
 
