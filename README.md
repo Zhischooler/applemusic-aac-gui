@@ -9,6 +9,7 @@
 
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/downloads/)
 ![MIT](https://img.shields.io/github/license/Zhischooler/applemusic-aac-gui?style=social)
+![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey%3E))
 
 ## ✨ 功能特点
 
