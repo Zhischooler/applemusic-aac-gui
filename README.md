@@ -7,6 +7,10 @@
 
 [English](./README-EN.md)
 
+![Python](https://img.shields.io/badge/python-3.10+-blue)
+
+![MIT](https://img.shields.io/github/license/Zhischooler/applemusic-aac-gui?style=social)
+
 ## ✨ 功能特点
 
 * 🎵 下载 Apple Music 歌曲、专辑、歌单、艺人页面（需订阅）
