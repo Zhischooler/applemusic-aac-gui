@@ -115,6 +115,7 @@ class DownloadThread(QThread):
                 encoding='utf-8',
                 errors='replace'
             )
+            # 只读取输出，不显示详细日志，仅用于检测完成状态
             while True:
                 if self._is_cancelled:
                     process.kill()
@@ -123,20 +124,16 @@ class DownloadThread(QThread):
                 line = process.stdout.readline()
                 if not line:
                     break
-                self.log_signal.emit(line.strip())
-                # 简单进度指示
-                if "Downloading" in line:
-                    self.progress_signal.emit(50)
+                # 不发送详细日志，只在内部检测关键状态
                 if "Finished" in line or "Downloaded" in line:
                     self.progress_signal.emit(100)
             process.wait()
             if process.returncode == 0:
-                self.finished_signal.emit(True, "下载完成")
+                self.finished_signal.emit(True, "下载成功")
             else:
                 self.finished_signal.emit(False, f"下载失败，返回码 {process.returncode}")
         except Exception as e:
-            self.log_signal.emit(f"错误: {str(e)}")
-            self.finished_signal.emit(False, f"异常: {str(e)}")
+            self.finished_signal.emit(False, f"异常：{str(e)}")
 
 
 # ============================
@@ -324,7 +321,6 @@ class MainWindow(QMainWindow):
         self.task_list_widget.addItem(item)
         self.task_list.append(url)
         self.url_input.clear()
-        self.log_message(f"已添加任务: {url}")
 
     def remove_selected(self):
         selected = self.task_list_widget.selectedItems()
@@ -336,7 +332,6 @@ class MainWindow(QMainWindow):
     def clear_tasks(self):
         self.task_list_widget.clear()
         self.task_list.clear()
-        self.log_message("队列已清空")
 
     # ---------- 下载控制 ----------
     def start_download(self):
@@ -367,7 +362,7 @@ class MainWindow(QMainWindow):
             self.finish_download_all()
             return
         url = self.task_list[self.current_task_index]
-        self.log_message(f"开始下载 [{self.current_task_index+1}/{len(self.task_list)}]: {url}")
+        self.log_message(f"开始下载 [{self.current_task_index+1}/{len(self.task_list)}]")
         self.progress_bar.setValue(0)
 
         quality = self.quality_combo.currentText()
@@ -382,20 +377,20 @@ class MainWindow(QMainWindow):
             url, cookies, output_dir, quality,
             lyrics, cover_size, remux_flac, concurrent
         )
-        self.download_thread.log_signal.connect(self.log_message)
         self.download_thread.progress_signal.connect(self.progress_bar.setValue)
         self.download_thread.finished_signal.connect(self.on_task_finished)
         self.download_thread.start()
 
     def on_task_finished(self, success, message):
-        self.log_message(f"任务结束: {message}")
         if success:
+            self.log_message("下载成功")
             self.current_task_index += 1
             self.download_next()
         else:
+            self.log_message(f"下载失败：{message}")
             reply = QMessageBox.question(
                 self, "下载失败",
-                f"任务失败: {message}\n是否继续下一个任务？",
+                f"{message}\n是否继续下一个任务？",
                 QMessageBox.Yes | QMessageBox.No,
                 QMessageBox.Yes
             )

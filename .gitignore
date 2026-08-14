@@ -1,44 +1,49 @@
-
-# Python 缓存
+```python
+# Python
 __pycache__/
-*.py[cod]
+*.pyc
 *.pyo
 *.pyd
+.Python
 *.so
-*.dll
+.coverage
+htmlcov/
+.coverage.*
+.python-version
 
-# 虚拟环境
+# Virtual environments
 venv/
+.venv/
 env/
 ENV/
-.venv/
 
-# 配置文件（包含用户自定义设置）
-config.txt
+# Build artifacts
+build/
+dist/
+*.egg
+*.egg-info/
+*.dist-info/
 
-# 下载输出目录
-downloads/
-output/
+# Logs
+*.log
+
+# Environment variables
+.env
+.env.local
+*.env.*
 
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
+*.tmp
 
-# 日志
-*.log
-
-# 打包文件
-build/
-dist/
-*.spec
-
-# 测试
-.pytest_cache/
-.tox/
-.mypy_cache/
-
-# 操作系统
+# OS
 .DS_Store
 Thumbs.db
+
+# Testing
+.pytest_cache/
+.mypy_cache/
+```
