@@ -44,8 +44,8 @@
 ### 1\. 克隆仓库
 
 ```bash
-git clone https://github.com/Zhischooler/apple-music-aac-gui.git
-cd apple-music-aac-gui
+git clone https://github.com/Zhischooler/applemusic-aac-gui.git
+cd applemusic-aac-gui
 ```
 
 2. 安装依赖
@@ -106,7 +106,7 @@ true代表是，false代表否。
 
 · gamdl – 核心下载实现
 
-· wenfeng110402/AppleMusic-Downloader – 界面设计参考
+· AppleMusic-Downloader – 界面设计参考
 
 📄 许可证
 
